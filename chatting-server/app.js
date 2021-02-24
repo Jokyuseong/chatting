@@ -1,6 +1,8 @@
 const app = require("express")();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server, {
+  pingTimeout: 1000,
+  pingInterval: 1000,
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
@@ -35,7 +37,12 @@ io.on("connection", (socket) => {
     });
   });
 
-  socket.on("disconnect", () => {
+  socket.on("disconnecting", (reason) => {
+    console.log("room:", socket.rooms);
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log("reason:", reason);
     console.log("user disconnected: ", socket.id);
   });
 });

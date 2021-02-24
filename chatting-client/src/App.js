@@ -24,7 +24,8 @@ function App() {
 
   useEffect(() => {
     socket.on("receive message", (item) => {
-      messages.push(item);
+      console.log(messages.push(item), "<<");
+      console.log(messages);
       setMessages([...messages]);
     });
 
